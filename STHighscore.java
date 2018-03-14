@@ -33,7 +33,6 @@ public class STHighscore{
 	public boolean addScore(int score){
 		for(int i=0;i<10;i++){
 			if(score<scores[i]||scores[i]==0){
-				System.out.println(""+i+"/"+score);
 				for(int j=9;i<j;j--){
 					names[j]=names[j-1];
 					scores[j]=scores[j-1];

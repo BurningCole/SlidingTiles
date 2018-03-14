@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
+import java.util.Random;
 
 public class STrun implements ActionListener{
 	private JFrame frame = new JFrame();
@@ -9,8 +10,20 @@ public class STrun implements ActionListener{
 	private JButton[] gridItem = new JButton[12];
 	private ImageIcon[] images = new ImageIcon[12];
 	private int[] greyPos={0,0};
-	private GridLayout grid = new GridLayout(3,4);
+	private GridLayout grid = new GridLayout(4,4);
+	private JButton randomize = new JButton("Randomize order");
 	private int count=0;
+	
+	public void Randomize(){
+		Random rand = new Random();
+		for(int i=0;i<10;i++){
+			int swap=rand.nextInt(12);
+			gridItem[greyPos[0]+greyPos[1]*4].setIcon(gridItem[swap].getIcon());
+			gridItem[swap].setIcon(images[0]);
+			greyPos[0]=swap%4;
+			greyPos[1]=(int)(swap/4);
+		}
+	}
 	public STrun(){
 		frame.setTitle("Swingin' simpsons");
 		frame.setSize(448,360);
@@ -23,36 +36,44 @@ public class STrun implements ActionListener{
 			panel.add(gridItem[i]);								//add item to grid
 			gridItem[i].addActionListener(this);				//add action listener
 		}
+		panel.add(randomize);
+		randomize.addActionListener(this);
+		Randomize();
 		frame.setVisible(true);									//make frame appear
 	}
 	public void actionPerformed(ActionEvent e){
-		int[] pos={0,0};
-		int i;
-    	for(i=0;i<12;i++){
-			if(e.getSource()==gridItem[i]){
-				pos[0]=i%4;
-				pos[1]=(int)(i/4);
-				break;
-			}
+		if(e.getSource()==randomize){
+			Randomize();
 		}
-		if ((greyPos[0]-pos[0])*(greyPos[0]-pos[0])+(greyPos[1]-pos[1])*(greyPos[1]-pos[1])==1/*next to Grey*/){
-			gridItem[greyPos[0]+greyPos[1]*4].setIcon(gridItem[i].getIcon());
-			gridItem[i].setIcon(images[0]);
-			greyPos=pos;
-			frame.setVisible(true);
-			boolean complete=true;
-			count++;
+		else
+		{
+			int[] pos={0,0};
+			int i;
 			for(i=0;i<12;i++){
-				if(gridItem[i].getIcon()!=images[i]){
-					complete=false;
+				if(e.getSource()==gridItem[i]){
+					pos[0]=i%4;
+					pos[1]=(int)(i/4);
 					break;
 				}
 			}
-			if(complete){
-				System.out.println("done");
-				Highscores.addScore(count);
+			if ((greyPos[0]-pos[0])*(greyPos[0]-pos[0])+(greyPos[1]-pos[1])*(greyPos[1]-pos[1])==1/*next to Grey*/){
+				gridItem[greyPos[0]+greyPos[1]*4].setIcon(gridItem[i].getIcon());
+				gridItem[i].setIcon(images[0]);
+				greyPos=pos;
+				boolean complete=true;
+				count++;
+				for(i=0;i<12;i++){
+					if(gridItem[i].getIcon()!=images[i]){
+						complete=false;
+						break;
+					}
+				}
+				if(complete){
+					System.out.println("done");
+					Highscores.addScore(count);
+				}
 			}
 		}
-		
+		frame.setVisible(true);
 	}
 }

@@ -25,6 +25,8 @@ public class STrun implements ActionListener{
 		return 0;
 	}
 	public void Randomize(){
+		count=0;
+		moves.setText("Moves: "+count);
 		Random rand = new Random();
 		for(int i=0;i<20;i++){
 			int swap=rand.nextInt(12);
@@ -108,8 +110,6 @@ public class STrun implements ActionListener{
 				}
 				if(complete){
 					Highscores.addScore(count);
-					count=0;
-					moves.setText("Moves: "+count);
 					Randomize();
 				}
 			}

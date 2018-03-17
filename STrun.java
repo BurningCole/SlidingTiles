@@ -16,6 +16,14 @@ public class STrun implements ActionListener{
 	private JButton randomize = new JButton("Randomize order");
 	private int count=0;
 	
+	public int getAddress(ImageIcon image){
+		for(int i=0;i<12;i++){
+			if (gridItem[i].getIcon()==image){
+				return i;
+			}
+		}
+		retturn null;
+	}
 	public void Randomize(){
 		Random rand = new Random();
 		for(int i=0;i<20;i++){
@@ -24,6 +32,28 @@ public class STrun implements ActionListener{
 			gridItem[swap].setIcon(images[0]);
 			greyPos[0]=swap%4;
 			greyPos[1]=(int)(swap/4);
+		}
+		gridItem[greyPos[0]+greyPos[1]*4].setIcon(gridItem[0].getIcon());
+		gridItem[0].setIcon(images[0]);
+		greyPos[0]=0;
+		greyPos[1]=0;
+		int inversions=0;
+		for(int i=1;i<12;i++){
+			int value=getAddress(gridItem[i].getIcon());
+			for(int j=i+1;j<12;j++){
+				if(getAddress(gridItem[i].getIcon())<value&&getAddress(gridItem[i].getIcon())!=0){
+					inversions++;
+				}
+			}
+		}
+		
+		if(inversions%2==0){
+			for(swap=1;swap<5;swap++){
+				gridItem[greyPos[0]+greyPos[1]*4].setIcon(gridItem[swap].getIcon());
+				gridItem[swap].setIcon(images[0]);
+				greyPos[0]=swap%4;
+				greyPos[1]=(int)(swap/4);
+			}
 		}
 	}
 	public STrun(){

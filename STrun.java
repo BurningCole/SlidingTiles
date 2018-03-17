@@ -16,13 +16,13 @@ public class STrun implements ActionListener{
 	private JButton randomize = new JButton("Randomize order");
 	private int count=0;
 	
-	public int getAddress(ImageIcon image){
+	public int getAddress(Icon image){
 		for(int i=0;i<12;i++){
 			if (gridItem[i].getIcon()==image){
 				return i;
 			}
 		}
-		retturn null;
+		return 0;
 	}
 	public void Randomize(){
 		Random rand = new Random();
@@ -47,8 +47,8 @@ public class STrun implements ActionListener{
 			}
 		}
 		
-		if(inversions%2==0){
-			for(swap=1;swap<5;swap++){
+		if(inversions%2==1){
+			for(int swap=1;swap<5;swap++){
 				gridItem[greyPos[0]+greyPos[1]*4].setIcon(gridItem[swap].getIcon());
 				gridItem[swap].setIcon(images[0]);
 				greyPos[0]=swap%4;

@@ -18,8 +18,9 @@ public class STrun implements ActionListener{
 	
 	public int getAddress(Icon image){
 		for(int i=0;i<12;i++){
-			if (gridItem[i].getIcon()==image){
+			if (images[i]==image){
 				return i;
+				
 			}
 		}
 		return 0;
@@ -43,7 +44,7 @@ public class STrun implements ActionListener{
 		for(int i=1;i<12;i++){
 			int value=getAddress(gridItem[i].getIcon());
 			for(int j=i+1;j<12;j++){
-				if(getAddress(gridItem[i].getIcon())<value&&getAddress(gridItem[i].getIcon())!=0){
+				if(getAddress(gridItem[j].getIcon())<value&&getAddress(gridItem[j].getIcon())!=0){
 					inversions++;
 				}
 			}
@@ -51,11 +52,11 @@ public class STrun implements ActionListener{
 		
 		if(inversions%2==1){
 			for(int swap=1;swap<5;swap++){
-				gridItem[greyPos[0]+greyPos[1]*4].setIcon(gridItem[swap].getIcon());
+				gridItem[swap-1].setIcon(gridItem[swap].getIcon());
 				gridItem[swap].setIcon(images[0]);
-				greyPos[0]=swap%4;
-				greyPos[1]=(int)(swap/4);
 			}
+			greyPos[0]=0;
+			greyPos[1]=1;
 		}
 	}
 	public STrun(){

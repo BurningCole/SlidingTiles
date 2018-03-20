@@ -13,35 +13,37 @@ public class STrun implements ActionListener{
 	private int[] greyPos={0,0};
 	private GridLayout grid = new GridLayout(3,4);
 	private JLabel moves=new JLabel("Moves: "+0);
-	private JButton randomize = new JButton("Randomize order");
+	private JButton randomise = new JButton("randomise order");
 	private int count=0;
 	
-	public int getAddress(Icon image){
+	public int getAddress(Icon image){//find address of icon
 		for(int i=0;i<12;i++){
 			if (images[i]==image){
-				return i;
+				return i;	//return address
 				
 			}
 		}
-		return 0;
+		return 0;//program should not reach here
 	}
-	public void Randomize(){
+	public void randomise(){//randomise function
 		count=0;
 		moves.setText("Moves: "+count);
 		Random rand = new Random();
-		for(int i=0;i<30;i++){
-			int swap=rand.nextInt(12);
+		int swap;
+		for(int i=0;i<30;i++){//replace random tile with grey tile 30 times
+			swap=rand.nextInt(12);
 			gridItem[greyPos[0]+greyPos[1]*4].setIcon(gridItem[swap].getIcon());
 			gridItem[swap].setIcon(images[0]);
 			greyPos[0]=swap%4;
 			greyPos[1]=(int)(swap/4);
 		}
-		gridItem[greyPos[0]+greyPos[1]*4].setIcon(gridItem[0].getIcon());
-		gridItem[0].setIcon(images[0]);
-		greyPos[0]=0;
+		swap=rand.nextInt(4);
+		gridItem[greyPos[0]+greyPos[1]*4].setIcon(gridItem[swap].getIcon());//move tile to first row
+		gridItem[swap].setIcon(images[0]);
+		greyPos[0]=swap;
 		greyPos[1]=0;
 		int inversions=0;
-		for(int i=1;i<12;i++){
+		for(int i=1;i<12;i++){//count number of inversions
 			int value=getAddress(gridItem[i].getIcon());
 			for(int j=i+1;j<12;j++){
 				if(getAddress(gridItem[j].getIcon())<value&&getAddress(gridItem[j].getIcon())!=0){
@@ -50,20 +52,20 @@ public class STrun implements ActionListener{
 			}
 		}
 		
-		if(inversions%2==1){
-			for(int swap=1;swap<5;swap++){
+		if(inversions%2==1){//if inversions is odd game is impossible so grey tile needs to be moved
+			swap++;
+			for(int i=swap+4;swap<i;swap++){//move grey down a level without disrupting order of rest of tiles
 				gridItem[swap-1].setIcon(gridItem[swap].getIcon());
 				gridItem[swap].setIcon(images[0]);
 			}
-			greyPos[0]=0;
-			greyPos[1]=1;
+			greyPos[1]=1;//grey is now on lower row
 		}
 	}
 	public STrun(){
 		frame.setResizable(false);
 		panel.setSize(448,360);
 		frame.setTitle("Swingin' simpsons");
-		frame.setSize(448,400);
+		frame.setSize(448,450);
 		frame.setContentPane(panel2);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		panel.setLayout(grid);
@@ -75,15 +77,15 @@ public class STrun implements ActionListener{
 			gridItem[i].addActionListener(this);				//add action listener
 		}		
 		panel2.add(panel);
-		panel2.add(randomize);
+		panel2.add(randomise);
 		panel2.add(moves);
-		randomize.addActionListener(this);
-		Randomize();
+		randomise.addActionListener(this);
+		randomise();
 		frame.setVisible(true);									//make frame appear
 	}
 	public void actionPerformed(ActionEvent e){
-		if(e.getSource()==randomize){
-			Randomize();
+		if(e.getSource()==randomise){
+			randomise();
 		}
 		else
 		{
@@ -111,7 +113,7 @@ public class STrun implements ActionListener{
 				}
 				if(complete){
 					Highscores.addScore(count);
-					Randomize();
+					randomise();
 				}
 			}
 		}

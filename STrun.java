@@ -29,7 +29,7 @@ public class STrun implements ActionListener{
 		count=0;
 		moves.setText("Moves: "+count);
 		Random rand = new Random();
-		for(int i=0;i<1;i++){
+		for(int i=0;i<30;i++){
 			int swap=rand.nextInt(12);
 			gridItem[greyPos[0]+greyPos[1]*4].setIcon(gridItem[swap].getIcon());
 			gridItem[swap].setIcon(images[0]);

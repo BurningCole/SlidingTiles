@@ -16,6 +16,9 @@ public class STrun implements ActionListener{
 	private JButton randomise = new JButton("randomise order");
 	private int count=0;
 	
+	/**
+	*gets the location in the array of ImageIcons of an imageicon
+	*/
 	public int getAddress(Icon image){//find address of icon
 		for(int i=0;i<12;i++){
 			if (images[i]==image){
@@ -25,6 +28,9 @@ public class STrun implements ActionListener{
 		}
 		return 0;//program should not reach here
 	}
+	/**
+	*randomises value of the tiles to make the game a challenge
+	*/
 	public void randomise(){//randomise function
 		count=0;
 		moves.setText("Moves: "+count);
@@ -61,6 +67,9 @@ public class STrun implements ActionListener{
 			greyPos[1]=1;//grey is now on lower row
 		}
 	}
+	/**
+	*initialises main body of slidingTiles, sets up design of structure.
+	*/
 	public STrun(){
 		frame.setResizable(false);
 		panel.setSize(448,360);
@@ -83,8 +92,12 @@ public class STrun implements ActionListener{
 		randomise();
 		frame.setVisible(true);									//make frame appear
 	}
-	public void actionPerformed(ActionEvent e){
-		if(e.getSource()==randomise){
+	/**
+	* gets the button pressed and randomises if randomise button pressed and slides 
+	*if a button next to the grey square pressed
+	*/
+	public void actionPerformed(ActionEvent e){//check if button pressed
+		if(e.getSource()==randomise){	//if randomise button pressed randomise
 			randomise();
 		}
 		else
@@ -92,31 +105,31 @@ public class STrun implements ActionListener{
 			int[] pos={0,0};
 			int i;
 			for(i=0;i<12;i++){
-				if(e.getSource()==gridItem[i]){
+				if(e.getSource()==gridItem[i]){//get position of tile pressed
 					pos[0]=i%4;
 					pos[1]=(int)(i/4);
 					break;
 				}
 			}
-			if ((greyPos[0]-pos[0])*(greyPos[0]-pos[0])+(greyPos[1]-pos[1])*(greyPos[1]-pos[1])==1/*next to Grey*/){
-				gridItem[greyPos[0]+greyPos[1]*4].setIcon(gridItem[i].getIcon());
+			if ((greyPos[0]-pos[0])*(greyPos[0]-pos[0])+(greyPos[1]-pos[1])*(greyPos[1]-pos[1])==1/*if next to Grey*/){
+				gridItem[greyPos[0]+greyPos[1]*4].setIcon(gridItem[i].getIcon());//swap grey and tile pressed
 				gridItem[i].setIcon(images[0]);
 				greyPos=pos;
 				boolean complete=true;
 				count++;
 				moves.setText("Moves: "+count);
 				for(i=0;i<12;i++){
-					if(gridItem[i].getIcon()!=images[i]){
+					if(gridItem[i].getIcon()!=images[i]){//check if all icons are in correct positions
 						complete=false;
 						break;
 					}
 				}
-				if(complete){
+				if(complete){//if complete add score to results
 					Highscores.addScore(count);
 					randomise();
 				}
 			}
 		}
-		frame.setVisible(true);
+		frame.setVisible(true);//refresh frame
 	}
 }

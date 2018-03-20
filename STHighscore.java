@@ -11,6 +11,9 @@ public class STHighscore{
 	private GridLayout grid = new GridLayout(11,2);
 	private int[] scores = new int[10];
 	
+	/**
+	* initialise and set up variables for the high-score table
+	*/
 	public STHighscore(){
 		frame.setTitle("HIGH SCORES");
 		frame.setSize(448,360);//set size
@@ -28,6 +31,11 @@ public class STHighscore{
 		panel.add(Name);
 		frame.setVisible(true);
 	}
+	
+	/**
+	*adds a score to the high-score table,
+	*will return true if score goes into table or false if score doesn't make it in.
+	*/
 	public boolean addScore(int score){
 		for(int i=0;i<10;i++){
 			if(score<scores[i]||scores[i]==0){//if score goes in position i

@@ -39,7 +39,11 @@ public class STHighscore{
 					scorelist[0][j].setText(names[j]);
 					scorelist[1][j].setText(""+scores[j]);
 				}
-				names[i]=Name.getText();
+				if (Name.getText().length()==0){
+					names[i]="Player";
+				}else{
+					names[i]=Name.getText();
+				}
 				scores[i]=score;
 				scorelist[0][i].setText(names[i]);
 				scorelist[1][i].setText(""+scores[i]);
